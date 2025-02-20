@@ -16,6 +16,6 @@ A C/C++ cross-platform/cross-language library for validating RFC3161 timestamp s
 
 openssl编译选项：
 
-```
-no-err no-filenames no-shared no-apps no-autoload-config no-tests no-deprecated no-docs no-legacy no-sock no-srp no-srtp no-psk no-ui-console no-quic no-dgram no-http no-ssl no-ssl3 no-tls no-dtls no-engine no-comp no-ec no-ec2m no-dynamic-engine no-ocsp no-cms
+```shell
+no-filenames no-shared no-apps no-autoload-config no-tests no-deprecated no-docs no-legacy no-sock no-srp no-srtp no-psk no-ui-console no-quic no-dgram no-http no-ssl no-ssl3 no-tls no-dtls no-engine no-comp no-ec no-ec2m no-dynamic-engine no-ocsp no-cms
 ```

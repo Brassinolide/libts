@@ -121,9 +121,6 @@ extern "C" {
 # ifndef OPENSSL_NO_ENGINE
 #  define OPENSSL_NO_ENGINE
 # endif
-# ifndef OPENSSL_NO_ERR
-#  define OPENSSL_NO_ERR
-# endif
 # ifndef OPENSSL_NO_EXTERNAL_TESTS
 #  define OPENSSL_NO_EXTERNAL_TESTS
 # endif
