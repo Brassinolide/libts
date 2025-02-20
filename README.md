@@ -1,6 +1,6 @@
 # libts
 
-A C++ cross-platform library for validating RFC3161 timestamp signature
+A C/C++ cross-platform/cross-language library for validating RFC3161 timestamp signature
 
 # 编译openssl
 
