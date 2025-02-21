@@ -1,4 +1,5 @@
 import sys, ctypes, os
+from datetime import datetime, timedelta
 
 class libts_ReturnCode(ctypes.c_int):
     UNDEFINED = 0
@@ -26,17 +27,24 @@ class libts_caller:
             else:
                 raise RuntimeError('Unsupported operating systems')
             
-            self.libts.ts_verify_file.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p]
+            self.libts.ts_verify_file.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_bool]
             self.libts.ts_verify_file.restype = ctypes.c_int
 
             self.libts.ts_get_last_openssl_error.argtypes = []
             self.libts.ts_get_last_openssl_error.restype = ctypes.c_char_p
 
+            self.libts.resp_get_signing_time.argtypes = []
+            self.libts.resp_get_signing_time.restype = ctypes.c_uint64
+
             self.loaded = True
 
-    def verify_file(self, data_file:str, sign_file:str, ca_type:int = libts_CA_TYPE.CA_SYSTEM, ca:str = "") -> int:
+    def verify_file(self, data_file:str, sign_file:str, parse_resp = True, ca_type:int = libts_CA_TYPE.CA_SYSTEM, ca:str = "") -> int:
         self.load_dll()
-        return self.libts.ts_verify_file(ctypes.c_char_p(bytes(data_file, 'utf-8')), ctypes.c_char_p(bytes(sign_file, 'utf-8')), ca_type, ctypes.c_char_p(bytes(ca, 'utf-8')))
+        return self.libts.ts_verify_file(ctypes.c_char_p(bytes(data_file, 'utf-8')), ctypes.c_char_p(bytes(sign_file, 'utf-8')), ca_type, ctypes.c_char_p(bytes(ca, 'utf-8')), parse_resp)
+
+    def get_sign_time(self) -> int:
+        self.load_dll()
+        return self.libts.resp_get_signing_time()
 
     def get_error_msg(self, code: int) -> str:
         self.load_dll()
@@ -54,3 +62,7 @@ class libts_caller:
 libts = libts_caller()
 
 print(libts.get_error_msg(libts.verify_file("test.txt", "test.txt.tsr")))
+
+utc_time  = datetime.fromtimestamp(libts.get_sign_time())
+print(f"UTC时间：{utc_time}")
+print(f"北京时间：{utc_time + timedelta(hours=8)}")
